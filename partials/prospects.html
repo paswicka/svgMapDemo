@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="dropdown">Prospect Name:
+			<select class="form-control" ng-options="item as item.ProspectName for item in prospects track by item.ProspectID" ng-model="targetProspect" ng-change="prospectSelect()">
+				<option>{{item.ProspectName}}</option>
+			</select>
+		</div>
+		<div class="dropdown">Order by:
+			<select class="form-control" ng-model="prospectOrder">
+				<option value="State" selected="selected">State</option>
+				<option value="EmployeeCount">Employees</option>
+				<option value="DependenttCount">Dependents</option>
+			</select>
+			<label class="formgroup">
+				<input type="radio" ng-model="direction" name="direction" checked> ascending
+			</label>
+			<label class="formgroup">
+				<input type="radio" ng-model="direction" name="direction" value="true"> descending
+			</label>
+		</div>
+	</div>
+	<div class="table-container">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>State</th>
+					<th>Employees</th>
+					<th>Dependents</th>
+				</tr>
+			</thead>
+			<tbody ng-model="prospectDetails" ng-repeat="item in prospectDetails | orderObjectBy:prospectOrder:direction">
+				<tr>
+					<td class="state">{{item.State}}</td>
+					<td>{{item.EmployeeCount}}</td> 
+					<td>{{item.DependenttCount}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

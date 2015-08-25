@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="hixmeApp" ng-controller="MainCtrl">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Prospect-O-Matic</title>
+
+    <script src="lib/jquery/jquery-1.11.3.min.js"></script>
+
+    <!-- Angular -->
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/angular/angular-resource.js"></script>
+    <script src="lib/angular/angular-ui-router.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  </head>
+
+  <body>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Prospect-O-Matic</h1>
+        <p><b>Instructions:</b>  Choose a prospect from the list below to display their employee & dependent counts on the map</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div prospect-table></div>
+        </div>
+        <div class="col-md-8">
+          <div prospect-popover></div>
+          <div prospect-map></div>
+        </div>
+       </div>
+      </div>
+
+      <footer class="footer">
+        <span>Prepared for <a href="http://www.hixme.com/">Hixme</a> by <a href="http://www.linkedin.com/in/swickaphil">Phil Swickard</a></span>
+      </footer>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="lib/bootstrap/bootstrap.min.js"></script>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
+    
+  </body>
+</html>
