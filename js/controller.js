@@ -19,7 +19,8 @@ module.controller('MainCtrl', ['$scope', 'ProspectList', 'ProspectDetails', func
 		$scope.prospectSelect = function() {
 
 			var prospectDetailsCall = ProspectDetails.get({id: $scope.targetProspect.ProspectID});
-			
+			$scope.prospectDetails = {};
+
 			prospectDetailsCall.$promise.then(function (result){
 				var temp = {};
 				angular.forEach(states, function (state, key){

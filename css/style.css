@@ -12,6 +12,11 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
 }
 
+.statePopover hr {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
 .panel-heading {
   padding:0px;
 }
@@ -42,13 +47,22 @@ label.formgroup{
   text-align: left;
 }
 
-svg .state {
+.state {
     fill: #CCC;
     color: #000;
 }
 
-svgHover {
-    fill: #ED5263;
+.key {
+  width: 100%;
+}
+
+.key div span{
+  margin: 0px 0px;
+  padding: 0px 10px;
+  background-color: #26e0b3;
+  color: #222;
+  border: 1px #fff solid;
+  width: 150px;
 }
 
 footer {

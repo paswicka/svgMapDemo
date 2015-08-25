@@ -2,10 +2,8 @@ var prospectDirectives = angular.module('prospectDirectives', []);
 
 prospectDirectives.directive('prospectMap', ['$compile', function ($compile){
 		return {
-    		// restrict: 'A',
     		templateNamespace: 'svg',
     		controller: 'MainCtrl',
-    		// scope: 'false',
 			link: function(scope, element, attr){
                     var regions = element[0].querySelectorAll('.state');
                     angular.forEach(regions, function (path, key) {
@@ -17,63 +15,76 @@ prospectDirectives.directive('prospectMap', ['$compile', function ($compile){
 
 					scope.$watch('prospectDetails', function(newValue, oldValue) {
 		                if (newValue){
-		                    updateHeatmap();
+
+                            //Update Heatmap
+		                    var regions = element[0].querySelectorAll('.state');
+
+                            angular.forEach(regions, function (path, key) {
+                                var regionElement = angular.element(path)[0];
+                                angular.element("#" + path.id).css({"fill": "", "opacity": "1"});
+
+                                angular.forEach(scope.prospectDetails, function (resource, key) {
+                                    if(resource.State == path.id){
+                                        var opacity = resource.EmployeeCount * .02;
+
+                                        if (resource.EmployeeCount < 20) {
+                                            opacity = .1;
+                                        }else if(resource.EmployeeCount > 20 && resource.EmployeeCount < 40){
+                                            opacity = .3;
+                                        }else if(resource.EmployeeCount > 40 && resource.EmployeeCount < 60){
+                                            opacity = .5;
+                                        }else if(resource.EmployeeCount > 60 && resource.EmployeeCount < 80){
+                                            opacity = .7;
+                                        }else if(resource.EmployeeCount > 80 && resource.EmployeeCount < 100){
+                                            opacity = .9;
+                                        }else{
+                                            opacity = 1;
+                                        };
+                                        angular.element("#" + path.id).css({"fill": "rgba(38, 224, 179, " + opacity + ")"});
+                                    }
+                                });
+                            });
 		                }
 		            });
 
-                    /*scope.$watch('targetState', function(newValue, oldValue) {
-                        if (newValue){
-                            updateHeatmap();
-                        }
-                    });*/
-
-                    function updateHeatmap(){
-                        var regions = element[0].querySelectorAll('.state');
-
-                        angular.forEach(regions, function (path, key) {
-                            var regionElement = angular.element(path)[0];
-                            angular.element("#" + path.id).css({"fill": "", "opacity": "1"});
-
-                            console.log(scope.prospectDetails);
-                            angular.forEach(scope.prospectDetails, function (resource, key) {
-                                if(resource.State == path.id){
-                                    var opacity = resource.EmployeeCount * .02;
-                                    angular.element("#" + path.id + ".state").css({"fill": "#26E0B3", "opacity":opacity});
-                                }
-                            });
-                        });
-                    }
+                    angular.forEach(angular.element(".key span"), function (element, key) {
+                        var opacity = ((key + 1) * .2) - .1;
+                        angular.element(element).css("background-color", "rgba(38, 224, 179, " + opacity + ")");
+                    });
 			},
 	        templateUrl: 'images/usaLow.svg'
 		}
 	}
 ]);
 
-prospectDirectives.directive('prospectState', ['$compile', '$document', function ($compile, $document){
+prospectDirectives.directive('prospectState', ['$compile', '$window', function ($compile, $window){
         return {
             scope: {
-                prospectDetails : "=",
-                targetState : "="
+                prospectDetails : "="
             },
             link: function(scope, element, attr){
-                scope.elementId = element.attr("id");
+                var elementId = element.attr("id");
                 scope.regionActive = function () {
-                    scope.$parent.targetState = scope.elementId;
-                    angular.element("#" + scope.elementId).addClass("svgHover");
+                    scope.$parent.targetState = elementId;
+                    angular.element("#" + elementId + " path").css({"fill": "#ED5163"});
                 };
                 scope.regionInactive = function () {
                     scope.$parent.targetState = null;
+                    angular.element("#" + elementId + " path").css({"fill":""});
                 };
                 scope.mouseFollow = function (event) {
-                    var offset = element.offset();
+                    var offset = angular.element(event.target).parent().parent().offset();
 
-                    var elementResult = document.getElementsByClassName("statePopover")[0];
+                    var elementResult = angular.element(".statePopover");
                     
-                    var top = event.clientY - 300;
-                    var left = event.clientX - 400;
-                    
-                    elementResult.style.top = top + "px";
-                    elementResult.style.left = left + "px";
+                    var top = event.pageY - offset.top - 110;
+                    var left = event.pageX - offset.left + 30;
+
+                    if (event.pageX + elementResult.width() + 50 > $window.innerWidth) {
+                        left -= (elementResult.width() + 50);
+                    };
+
+                    elementResult.css({"top": top + "px", "left": left + "px"});
                 };
                 element.attr("ng-mouseover", "regionActive()");
                 element.attr("ng-mouseleave", "regionInactive()");
