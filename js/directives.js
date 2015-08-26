@@ -21,7 +21,7 @@ prospectDirectives.directive('prospectMap', ['$compile', function ($compile){
 
                             angular.forEach(regions, function (path, key) {
                                 var regionElement = angular.element(path)[0];
-                                angular.element("#" + path.id).css({"fill": "", "opacity": "1"});
+                                TweenMax.to(angular.element("#" + path.id), .5, {css:{fill:"#CCC"}});
 
                                 angular.forEach(scope.prospectDetails, function (resource, key) {
                                     if(resource.State == path.id){
@@ -40,7 +40,8 @@ prospectDirectives.directive('prospectMap', ['$compile', function ($compile){
                                         }else{
                                             opacity = 1;
                                         };
-                                        angular.element("#" + path.id).css({"fill": "rgba(38, 224, 179, " + opacity + ")"});
+
+                                        TweenMax.to(angular.element("#" + path.id), 2, {css:{fill:"rgba(38, 224, 179, " + opacity + ")"}});
                                     }
                                 });
                             });

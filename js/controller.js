@@ -9,6 +9,7 @@ module.controller('MainCtrl', ['$scope', 'ProspectList', 'ProspectDetails', func
 		var prospectList = ProspectList.query();
 		
 
+		$scope.loading = true;
 		prospectList.$promise.then(function (result) {
 		    $scope.prospects = result;
 			$scope.prospectOrder = "State";
@@ -17,7 +18,7 @@ module.controller('MainCtrl', ['$scope', 'ProspectList', 'ProspectDetails', func
 		});
 		
 		$scope.prospectSelect = function() {
-
+			$scope.loading = true;
 			var prospectDetailsCall = ProspectDetails.get({id: $scope.targetProspect.ProspectID});
 			$scope.prospectDetails = {};
 
@@ -31,6 +32,7 @@ module.controller('MainCtrl', ['$scope', 'ProspectList', 'ProspectDetails', func
 					})
 				})
 				$scope.prospectDetails = temp;
+				$scope.loading = false;
 			});
 		};
 	}
